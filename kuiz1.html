@@ -1,0 +1,1146 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuiz 1 | Mengenal Bentuk Geometri</title>
+
+<style>
+:root {
+  --green:#28664d;
+  --dark:#244b3c;
+  --ink:#344b57;
+  --cream:#fffdf4;
+  --yellow:#f9d976;
+  --shadow:0 9px 22px #59452a1c;
+}
+* { box-sizing:border-box; }
+
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+
+  /* CLASSROOM BACKGROUND IMAGE */
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.12)
+    ),
+    url("class.png");
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+button { font:inherit; cursor:pointer; }
+
+.topbar {
+  background:#fffdf2;
+  border-bottom:4px solid #d8b47c;
+  padding:12px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  color:#285c48;
+}
+
+.brand-icon {
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:#e4f4c8;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+}
+
+.nav {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.nav a,.audio-toggle {
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  background:#e9f3f7;
+  color:#315a70;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:900;
+}
+
+.nav .active {
+  background:var(--green);
+  color:white;
+}
+
+.audio-toggle {
+  background:var(--yellow);
+  color:#61491f;
+}
+
+main {
+  max-width:1050px;
+  margin:30px auto 50px;
+  padding:0 18px;
+}
+
+.hero {
+  background:var(--green);
+  color:white;
+  border:8px solid #b98754;
+  border-radius:16px;
+  padding:26px 18px;
+  text-align:center;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:before,.hero:after {
+  content:"✦";
+  position:absolute;
+  font-size:36px;
+  color:#f9d976;
+}
+.hero:before { left:20px;top:12px; }
+.hero:after { right:20px;bottom:10px; }
+
+.eyebrow {
+  font-size:12px;
+  letter-spacing:2px;
+  color:#d9f0b9;
+  font-weight:900;
+}
+
+h1 {
+  font-size:clamp(29px,5vw,43px);
+  margin:8px 0;
+}
+
+.hero p {
+  margin:0;
+  color:#e6f4df;
+  font-size:14px;
+}
+
+.card {
+  background:rgba(255,253,244,.97);
+  backdrop-filter:blur(3px);
+  border:3px solid #e3c99e;
+  border-radius:20px;
+  padding:clamp(17px,3vw,29px);
+  margin-top:23px;
+  box-shadow:var(--shadow);
+}
+
+.section-title {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.number-icon {
+  background:#ffe29a;
+  color:#75501e;
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+  font-weight:900;
+}
+
+h2 {
+  margin:0;
+  color:#285c48;
+  font-size:23px;
+}
+
+.section-title p {
+  margin:3px 0 0;
+  color:#788b8d;
+  font-size:13px;
+}
+
+.question {
+  background:#eef8fb;
+  border:2px dashed #a8cedd;
+  padding:19px;
+  border-radius:15px;
+}
+
+.question h3 {
+  margin:0 0 10px;
+  color:#315f70;
+  font-size:18px;
+}
+
+.question ol {
+  margin:0;
+  padding-left:25px;
+  line-height:1.9;
+  font-weight:700;
+  font-size:15px;
+}
+
+.instruction {
+  font-weight:900;
+  color:#42664d;
+  margin:21px 0 13px;
+}
+
+.shapes {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.choice {
+  min-height:180px;
+  border:3px solid #e5e8d7;
+  border-radius:17px;
+  background:white;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.choice:nth-child(2) { background:#fff9e9; }
+.choice:nth-child(3) { background:#eff9ff; }
+.choice:nth-child(4) { background:#fff1ee; }
+.choice:nth-child(5) { background:#f0f8ed; }
+.choice:nth-child(6) { background:#f5f0ff; }
+
+.choice:hover {
+  transform:translateY(-4px);
+  border-color:#8fc49c;
+  box-shadow:0 8px 15px #285c4820;
+}
+
+.choice.selected {
+  border-color:#31835b;
+  box-shadow:0 0 0 4px #31835b22;
+}
+
+.choice:disabled {
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.shape-art {
+  height:118px;
+  width:100%;
+  display:grid;
+  place-items:center;
+  perspective:600px;
+}
+
+.shape-art svg {
+  width:115px;
+  height:112px;
+  overflow:visible;
+  filter:drop-shadow(0 6px 4px #354a4820);
+  animation:rotateX 9s linear infinite;
+  transform-style:preserve-3d;
+}
+
+.choice:nth-child(2) svg { animation-duration:10s; }
+.choice:nth-child(3) svg { animation-duration:8s; }
+.choice:nth-child(4) svg { animation-duration:11s; }
+.choice:nth-child(5) svg { animation-duration:9s; }
+.choice:nth-child(6) svg { animation-duration:12s; }
+
+@keyframes rotateX {
+  from { transform:rotateY(0deg); }
+  to { transform:rotateY(360deg); }
+}
+
+.shape-name {
+  font-size:16px;
+  font-weight:900;
+  color:#315e4a;
+}
+
+.feedback {
+  text-align:center;
+  min-height:44px;
+  margin-top:18px;
+  font-weight:900;
+  font-size:20px;
+}
+
+.feedback.success { color:#23804d; }
+.feedback.error { color:#c34747; }
+
+.feedback small {
+  display:block;
+  font-size:12px;
+  color:#718185;
+  margin-top:5px;
+}
+
+.buttons {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+.primary,.secondary {
+  padding:13px 21px;
+  border:0;
+  border-radius:12px;
+  font-weight:900;
+  font-size:14px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.primary {
+  background:var(--green);
+  color:white;
+  box-shadow:0 5px 10px #28664d30;
+}
+
+.secondary {
+  background:#e8f2e8;
+  color:#315c43;
+}
+
+.primary:hover,.secondary:hover {
+  filter:brightness(1.06);
+  transform:translateY(-2px);
+}
+
+footer {
+  text-align:center;
+  padding:20px;
+  color:#617a78;
+  font-size:12px;
+}
+
+@media(max-width:700px) {
+  .shapes { grid-template-columns:repeat(2,1fr); }
+}
+
+@media(max-width:430px) {
+  .topbar { justify-content:center; }
+  .brand { width:100%;justify-content:center; }
+  .nav { justify-content:center; }
+  .shapes { gap:8px; }
+  .choice { min-height:155px; }
+  .shape-art { height:100px; }
+  .audio-toggle { padding:8px 10px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * { animation:none!important;transition:none!important; }
+}
+
+.audio-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.audio-container audio {
+  width: min(350px, 90%);
+}
+
+
+/* QUESTION PROGRESS */
+
+.question-counter {
+  display: inline-block;
+  background: #ffe9ac;
+  color: #75501e;
+  border-radius: 20px;
+  padding: 7px 13px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.question-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.question-progress .progress-dot {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+
+  /* Centre the number */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Circle appearance */
+  border: 2px solid #c9dfd0;
+  border-radius: 50%;
+  background: white;
+  color: #477255;
+
+  /* Number alignment */
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.question-progress .progress-dot.current {
+  background: #28664d;
+  color: white;
+  border-color: #28664d;
+}
+
+.question-progress .progress-dot.completed {
+  background: #dff2dc;
+  border-color: #75ac78;
+  color: #28664d;
+}
+
+.question-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.question-navigation button {
+  flex: 1;
+}
+
+.question-navigation button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+@media(max-width:430px) {
+  .question-navigation {
+    flex-direction: column;
+  }
+
+  .question-progress {
+    gap: 6px;
+  }
+
+  .question-progress .progress-dot {
+    width: 29px;
+    height: 29px;
+  }
+}
+
+/* ALPHABET IDENTIFICATION */
+
+.choice {
+  position: relative;
+}
+
+.choice-letter {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffe29a;
+  color: #75501e;
+
+  border: 2px solid #e5c66e;
+  border-radius: 50%;
+
+  font-size: 14px;
+  font-weight: 900;
+
+  z-index: 5;
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">📚</div>
+    <span>KELAS GEOMETRI</span>
+  </div>
+
+  <nav class="nav">
+    <a class="active" href="kuiz1.html">Kuiz 1</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>Mari Kenali Bentuk 3D Geometri</h1>
+    <p>Selamat datang ke kelas geometri! Mari kenali bentuk 3D bersama-sama.</p>
+  </section>
+
+  <section class="card">
+
+    <div class="section-title">
+      <div>
+        <h2>Aktiviti mengenal pasti bentuk geometri</h2>
+        <p></p>
+      </div>
+    </div>
+
+
+    <div class="question">
+      <div class="question-counter" id="questionCounter">
+        SOALAN 1 DARIPADA 7
+      </div>
+
+      <h3 id="questionTitle">
+        Kenal pasti bentuk geometri berdasarkan ciri-ciri berikut:
+      </h3>
+
+      <ol id="questionClues"></ol>
+    </div>
+
+    <p class="instruction">🌟 Pilih jawapan yang betul!</p>
+
+    <div class="question-progress" id="questionProgress"></div>
+
+    <div class="shapes" id="shapeChoices"></div>
+
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+
+    <div class="question-navigation">
+      <button class="secondary" id="previousQuestion"
+        onclick="changeQuestion(-1)">
+        ← Soalan sebelumnya
+      </button>
+
+      <button class="primary" id="nextQuestion"
+        onclick="changeQuestion(1)" disabled>
+        Soalan seterusnya →
+      </button>
+    </div>
+
+
+    <p class="instruction">🌟 Pilih jawapan yang betul!</p>
+
+  </section>
+
+</main>
+
+<footer></footer>
+
+<!-- BACKGROUND AUDIO -->
+<div class="audio-container">
+  <audio id="kids" controls autoplay loop>
+    <source src="kids.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
+</div>
+
+<script>
+const audio = document.getElementById("kids");
+audio.volume = 0.05;
+</script>
+
+<script>
+
+// 3D shape illustrations
+const shapes = {
+
+  kubus: `
+  <svg viewBox="0 0 160 140" aria-label="Kubus">
+    <path d="M34 42 79 17 126 43 80 69Z"
+      fill="#b4e4f5" stroke="#315e7c" stroke-width="3"/>
+    <path d="M34 42 34 96 80 123 80 69Z"
+      fill="#68b2d3" stroke="#315e7c" stroke-width="3"/>
+    <path d="M80 69 126 43 126 96 80 123Z"
+      fill="#3e84ad" stroke="#315e7c" stroke-width="3"/>
+  </svg>`,
+
+  sfera: `
+  <svg viewBox="0 0 160 140" aria-label="Sfera">
+    <defs>
+      <radialGradient id="ball" cx="30%" cy="25%">
+        <stop offset="0" stop-color="#fff3be"/>
+        <stop offset=".55" stop-color="#f6c85c"/>
+        <stop offset="1" stop-color="#d38b29"/>
+      </radialGradient>
+    </defs>
+    <circle cx="80" cy="70" r="48"
+      fill="url(#ball)" stroke="#a56d22" stroke-width="3"/>
+    <ellipse cx="60" cy="43" rx="13" ry="8"
+      fill="#fff8db" opacity=".7"/>
+  </svg>`,
+
+  silinder: `
+  <svg viewBox="0 0 160 140" aria-label="Silinder">
+    <path d="M39 34V105C39 119 121 119 121 105V34"
+      fill="#91cce4" stroke="#315e7c" stroke-width="3"/>
+    <ellipse cx="80" cy="34" rx="41" ry="15"
+      fill="#dff4fc" stroke="#315e7c" stroke-width="3"/>
+    <path d="M39 105C39 124 121 124 121 105"
+      fill="none" stroke="#315e7c" stroke-width="3"/>
+  </svg>`,
+
+  kon: `
+  <svg viewBox="0 0 160 140" aria-label="Kon">
+    <path d="M80 17 35 108Q80 129 125 108Z"
+      fill="#f3ad91" stroke="#9c5744" stroke-width="3"/>
+    <path d="M35 108Q80 87 125 108"
+      fill="none" stroke="#9c5744"
+      stroke-width="3" stroke-dasharray="5 4"/>
+  </svg>`,
+
+  kuboid: `
+  <svg viewBox="0 0 160 140" aria-label="Kuboid">
+    <path d="M20 46 57 23 139 39 101 63Z"
+      fill="#bde1a8" stroke="#47734b" stroke-width="3"/>
+    <path d="M20 46V98L101 119V63Z"
+      fill="#80b77b" stroke="#47734b" stroke-width="3"/>
+    <path d="M101 63 139 39V91L101 119Z"
+      fill="#528d61" stroke="#47734b" stroke-width="3"/>
+  </svg>`,
+
+  piramidTepat: `
+  <svg viewBox="0 0 180 150" aria-label="Piramid tapak segi empat tepat">
+    <path d="M90 13 23 103 93 132 158 96Z"
+      fill="#e8c28c" stroke="#8c663c" stroke-width="3"/>
+    <path d="M90 13 23 103 93 132Z"
+      fill="#f7dfb7" stroke="#8c663c" stroke-width="2"/>
+    <path d="M90 13 93 132M90 13 158 96"
+      fill="none" stroke="#8c663c" stroke-width="3"/>
+    <path d="M23 103 158 96"
+      fill="none" stroke="#8c663c" stroke-width="2"
+      stroke-dasharray="5 4"/>
+  </svg>`,
+
+  piramidSama: `
+  <svg viewBox="0 0 180 150" aria-label="Piramid tapak segi empat sama">
+    <path d="M90 13 28 105 90 132 152 105Z"
+      fill="#e8c28c" stroke="#8c663c" stroke-width="3"/>
+    <path d="M90 13 28 105 90 132Z"
+      fill="#f7dfb7" stroke="#8c663c" stroke-width="2"/>
+    <path d="M90 13 90 132M90 13 152 105"
+      fill="none" stroke="#8c663c" stroke-width="3"/>
+    <path d="M28 105 152 105"
+      fill="none" stroke="#8c663c" stroke-width="2"
+      stroke-dasharray="5 4"/>
+  </svg>`
+};
+
+
+/* ==========================================
+   SEVEN GEOMETRY QUESTIONS
+========================================== */
+// RANDOMISE ARRAY USING FISHER-YATES
+function shuffleArray(array) {
+
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [shuffled[i], shuffled[j]] =
+      [shuffled[j], shuffled[i]];
+
+  }
+
+  return shuffled;
+}
+
+const questions = [
+
+  {
+    answer: "kubus",
+    clues: [
+      "Saya mempunyai 6 permukaan rata berbentuk segi empat sama.",
+      "Saya mempunyai 12 sisi.",
+      "Saya mempunyai 8 bucu."
+    ]
+  },
+
+  {
+    answer: "kuboid",
+    clues: [
+      "Saya mempunyai 6 permukaan rata berbentuk segi empat tepat.",
+      "Permukaan saya tidak semuanya berbentuk segi empat sama.",
+      "Saya mempunyai 12 sisi dan 8 bucu."
+    ]
+  },
+
+  {
+    answer: "kon",
+    clues: [
+      "Saya mempunyai 2 permukaan: 1 permukaan rata berbentuk bulatan dan 1 permukaan melengkung.",
+      "Saya mempunyai 1 sisi melengkung.",
+      "Saya mempunyai 1 bucu di bahagian puncak."
+    ]
+  },
+
+  {
+    answer: "piramidTepat",
+    clues: [
+      "Saya mempunyai 5 permukaan: 1 tapak segi empat tepat dan 4 muka segi tiga.",
+      "Saya mempunyai 8 sisi.",
+      "Saya mempunyai 5 bucu."
+    ]
+  },
+
+  {
+    answer: "piramidSama",
+    clues: [
+      "Saya mempunyai 5 permukaan: 1 tapak segi empat sama dan 4 muka segi tiga.",
+      "Saya mempunyai 8 sisi.",
+      "Saya mempunyai 5 bucu."
+    ]
+  },
+
+  {
+    answer: "silinder",
+    clues: [
+      "Saya mempunyai 3 permukaan: 2 permukaan rata berbentuk bulatan dan 1 permukaan melengkung.",
+      "Saya mempunyai 2 sisi melengkung.",
+      "Saya tidak mempunyai bucu."
+    ]
+  },
+
+  {
+    answer: "sfera",
+    clues: [
+      "Saya mempunyai 1 permukaan melengkung.",
+      "Saya tidak mempunyai permukaan rata.",
+      "Saya tidak mempunyai sisi atau bucu."
+    ]
+  }
+
+];
+
+// Randomise all 7 questions when the website opens
+questions.splice(
+  0,
+  questions.length,
+  ...shuffleArray(questions)
+);
+
+
+/* ==========================================
+   ANSWER OPTIONS
+========================================== */
+
+const shapeOptions = [
+  {key:"kubus",label:"Kubus"},
+  {key:"kuboid",label:"Kuboid"},
+  {key:"kon",label:"Kon"},
+  {key:"piramidTepat",label:"Piramid tapak segi empat tepat"},
+  {key:"piramidSama",label:"Piramid tapak segi empat sama"},
+  {key:"silinder",label:"Silinder"},
+  {key:"sfera",label:"Sfera"}
+];
+
+let currentQuestion = 0;
+let locked = false;
+let correct = false;
+let retryTimer = null;
+
+const answeredQuestions = new Set();
+
+const choicesContainer =
+  document.getElementById("shapeChoices");
+
+const feedback =
+  document.getElementById("feedback");
+
+
+/* ==========================================
+   RENDER QUESTION
+========================================== */
+
+function renderQuestion() {
+
+  const question = questions[currentQuestion];
+
+  document.getElementById("questionCounter").textContent =
+    `SOALAN ${currentQuestion + 1} DARIPADA ${questions.length}`;
+
+  const clueList = document.getElementById("questionClues");
+
+  clueList.innerHTML = "";
+
+  question.clues.forEach(clue => {
+
+    const li = document.createElement("li");
+    li.textContent = clue;
+    clueList.appendChild(li);
+
+  });
+
+  // Progress indicators
+  const progress = document.getElementById("questionProgress");
+
+  progress.innerHTML = "";
+
+  questions.forEach((q,index) => {
+
+    const dot = document.createElement("div");
+
+    dot.className = "progress-dot";
+
+    if(index === currentQuestion) {
+      dot.classList.add("current");
+    }
+
+    if(answeredQuestions.has(index)) {
+      dot.classList.add("completed");
+      dot.textContent = "✓";
+    } else {
+      dot.textContent = index + 1;
+    }
+
+    progress.appendChild(dot);
+
+  });
+
+  // Previous button
+  document.getElementById("previousQuestion").disabled =
+    currentQuestion === 0;
+
+  // Next button
+  const nextButton = document.getElementById("nextQuestion");
+
+  nextButton.disabled =
+    !answeredQuestions.has(currentQuestion);
+
+  nextButton.textContent =
+    currentQuestion === questions.length - 1
+      ? "Tahniah!"
+      : "Soalan seterusnya →";
+
+  // Reset feedback
+  feedback.className = "feedback";
+  feedback.textContent = "";
+
+  // Create seven answer options
+  renderChoices();
+
+  // If the question was previously answered
+  if(answeredQuestions.has(currentQuestion)) {
+
+    feedback.className = "feedback success";
+    feedback.textContent = "🎉 Tahniah! Jawapan anda betul.";
+
+  }
+
+}
+
+
+/* ==========================================
+   RENDER SHAPE OPTIONS
+========================================== */
+
+function renderChoices() {
+
+  choicesContainer.innerHTML = "";
+
+  // Fixed alphabet labels for displayed positions
+  const alphabet = ["A", "B", "C", "D", "E", "F", "G"];
+
+  // Randomise the shape arrangement
+  const randomShapes = shuffleArray(shapeOptions);
+
+  randomShapes.forEach((shape, index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "choice";
+    button.type = "button";
+
+    button.innerHTML = `
+      <span class="choice-letter">
+        ${alphabet[index]}
+      </span>
+
+      <div class="shape-art">
+        ${shapes[shape.key]}
+      </div>
+
+      <span class="shape-name">
+        ${shape.label}
+      </span>
+    `;
+
+    // Important: Check the actual shape key, NOT A-G.
+    button.addEventListener("click", () => {
+      selectAnswer(shape.key, button);
+    });
+
+    choicesContainer.appendChild(button);
+
+  });
+
+  // Lock choices if the question was already answered correctly
+  if (answeredQuestions.has(currentQuestion)) {
+
+    choicesContainer.querySelectorAll("button").forEach(button => {
+      button.disabled = true;
+    });
+
+  }
+
+}
+
+
+/* ==========================================
+   SELECT ANSWER
+========================================== */
+
+function selectAnswer(key,button) {
+
+  if(locked || answeredQuestions.has(currentQuestion)) {
+    return;
+  }
+
+  clickSound();
+
+  choicesContainer.querySelectorAll(".choice").forEach(item => {
+    item.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+
+  const correctAnswer = questions[currentQuestion].answer;
+
+  if(key === correctAnswer) {
+
+    // Correct answer
+    answeredQuestions.add(currentQuestion);
+
+    correct = true;
+
+    feedback.className = "feedback success";
+    feedback.textContent = "🎉 Tahniah! Jawapan anda betul!";
+
+    choicesContainer.querySelectorAll("button").forEach(item => {
+      item.disabled = true;
+    });
+
+    const nextButton = document.getElementById("nextQuestion");
+    nextButton.disabled = false;
+
+    nextButton.textContent =
+      currentQuestion === questions.length - 1
+        ? "Tahniah!"
+        : "Soalan seterusnya →";
+
+    // Refresh progress indicator
+    renderProgress();
+
+  } else {
+
+    // Incorrect answer
+    locked = true;
+
+    feedback.className = "feedback error";
+
+    feedback.innerHTML =
+      "❌ Sila cuba lagi!<small>Cuba perhatikan ciri-ciri bentuk dengan teliti.</small>";
+
+    choicesContainer.querySelectorAll("button").forEach(item => {
+      item.disabled = true;
+    });
+
+    // Delay before allowing another attempt
+    retryTimer = setTimeout(() => {
+
+      locked = false;
+
+      choicesContainer.querySelectorAll("button").forEach(item => {
+        item.disabled = false;
+      });
+
+      button.classList.remove("selected");
+
+      feedback.className = "feedback";
+      feedback.textContent = "";
+
+    },1300);
+
+  }
+
+}
+
+
+/* ==========================================
+   UPDATE PROGRESS
+========================================== */
+
+function renderProgress() {
+
+  const progress =
+    document.getElementById("questionProgress");
+
+  [...progress.children].forEach((dot,index) => {
+
+    dot.classList.toggle(
+      "current",
+      index === currentQuestion
+    );
+
+    dot.classList.toggle(
+      "completed",
+      answeredQuestions.has(index)
+    );
+
+    dot.textContent =
+      answeredQuestions.has(index)
+        ? "✓"
+        : index + 1;
+
+  });
+
+}
+
+
+/* ==========================================
+   PREVIOUS / NEXT QUESTION
+========================================== */
+
+function changeQuestion(direction) {
+
+  if(locked) return;
+
+  clickSound();
+
+  if(direction === 1) {
+
+    if(!answeredQuestions.has(currentQuestion)) {
+      return;
+    }
+
+    if(currentQuestion === questions.length - 1) {
+
+      window.location.href = "kuiz1.html";
+      return;
+
+    }
+
+  }
+
+  const nextIndex = currentQuestion + direction;
+
+  if(nextIndex < 0 || nextIndex >= questions.length) {
+    return;
+  }
+
+  currentQuestion = nextIndex;
+
+  correct = answeredQuestions.has(currentQuestion);
+
+  renderQuestion();
+
+}
+
+
+/* ==========================================
+   INITIALISE QUIZ
+========================================== */
+
+renderQuestion();
+
+
+// Interactive audio toggle
+let audioEnabled = true;
+let audioContext = null;
+
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+
+  const button = document.getElementById("audioButton");
+
+  button.textContent = audioEnabled
+    ? "🔊 Audio: ON"
+    : "🔇 Audio: OFF";
+
+  button.setAttribute("aria-pressed",audioEnabled);
+
+  if (audioEnabled) clickSound();
+}
+
+// Generate a short click sound
+function clickSound() {
+  if (!audioEnabled) return;
+
+  try {
+    audioContext = audioContext ||
+      new (window.AudioContext || window.webkitAudioContext)();
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(650,audioContext.currentTime);
+
+    gain.gain.setValueAtTime(.08,audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+      .001,audioContext.currentTime + .1
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + .1);
+
+  } catch(error) {
+    console.log("Audio unavailable");
+  }
+}
+
+</script>
+
+</body>
+</html>

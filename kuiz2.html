@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuiz 2 | Mengenal Bentuk Geometri</title>
+
+<style>
+:root{
+  --green:#28664d;
+  --ink:#344b57;
+  --yellow:#f9d976;
+  --shadow:0 9px 22px #59452a1c;
+}
+*{box-sizing:border-box}
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+
+  /* CLASSROOM BACKGROUND IMAGE */
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.12)
+    ),
+    url("class.png");
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+button,input{font:inherit}
+.topbar{
+  background:#fffdf2;
+  border-bottom:4px solid #d8b47c;
+  padding:12px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:#285c48}
+.brand-icon{width:40px;height:40px;border-radius:12px;background:#e4f4c8;display:grid;place-items:center;font-size:23px}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a,.audio-toggle{
+  border:0;border-radius:10px;padding:10px 14px;
+  background:#e9f3f7;color:#315a70;
+  text-decoration:none;font-size:13px;font-weight:900;
+}
+.nav .active{background:#28664d;color:white}
+.audio-toggle{background:var(--yellow);color:#61491f}
+main{max-width:1050px;margin:30px auto 50px;padding:0 18px}
+.hero{
+  background:#28664d;color:white;
+  border:8px solid #b98754;border-radius:16px;
+  padding:26px 18px;text-align:center;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.hero:before,.hero:after{content:"✦";position:absolute;font-size:36px;color:#f9d976}
+.hero:before{left:20px;top:12px}
+.hero:after{right:20px;bottom:10px}
+.eyebrow{font-size:12px;letter-spacing:2px;color:#d9f0b9;font-weight:900}
+h1{font-size:clamp(29px,5vw,43px);margin:8px 0}
+.hero p{margin:0;color:#e6f4df;font-size:14px}
+.card{
+  background:rgba(255,253,244,.97);
+  backdrop-filter:blur(3px);
+  border:3px solid #e3c99e;border-radius:20px;
+  padding:clamp(17px,3vw,29px);
+  margin-top:23px;box-shadow:var(--shadow);
+}
+.section-title{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.number-icon{
+  background:#ffe29a;color:#75501e;width:43px;height:43px;
+  border-radius:14px;display:grid;place-items:center;
+  font-size:22px;font-weight:900;
+}
+h2{margin:0;color:#285c48;font-size:23px}
+.section-title p{margin:3px 0 0;color:#788b8d;font-size:13px}
+.intro{
+  background:#eef8fb;border:2px dashed #a8cedd;
+  padding:16px;border-radius:15px;font-size:14px;line-height:1.6;
+}
+.progress{
+  display:flex;justify-content:center;gap:9px;
+  flex-wrap:wrap;margin:19px 0;
+}
+.progress button{
+  width:35px;height:35px;border-radius:50%;
+  border:2px solid #c9dfd0;background:#fff;
+  color:#477255;font-weight:900;cursor:pointer;
+}
+.progress button.active{background:#28664d;color:white;border-color:#28664d}
+.progress button.completed{background:#dff2dc;border-color:#75ac78}
+.quiz-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;align-items:stretch;
+}
+.shape-display{
+  min-height:350px;
+  background:linear-gradient(145deg,#f0faff,#e4f3fa);
+  border:3px solid #c5dfeb;border-radius:19px;
+  display:grid;place-items:center;
+  position:relative;overflow:hidden;
+}
+.shape-display:before,.shape-display:after{
+  content:"";position:absolute;border-radius:50%;
+  background:#d1e9f5;opacity:.7;
+}
+.shape-display:before{width:200px;height:200px;top:-100px;left:-70px}
+.shape-display:after{width:170px;height:170px;bottom:-85px;right:-50px}
+.shape-art{
+  width:100%;height:275px;
+  display:grid;place-items:center;
+  position:relative;z-index:1;perspective:800px;
+}
+.shape-art svg{
+  width:min(260px,80%);height:245px;
+  filter:drop-shadow(0 7px 5px #354a4825);
+  animation:rotateX 10s linear infinite;
+  transform-style:preserve-3d;
+}
+@keyframes rotateX{
+  from{transform:rotateY(0deg)}
+  to{transform:rotateY(360deg)}
+}
+.answer-panel{
+  background:#fff;border:2px solid #e5d9bd;
+  border-radius:19px;padding:22px;
+}
+.shape-counter{
+  display:inline-block;background:#fff2c7;color:#80602c;
+  padding:7px 12px;border-radius:20px;
+  font-size:12px;font-weight:900;margin-bottom:12px;
+}
+.hint{font-size:13px;color:#718185;line-height:1.5;margin:0 0 18px}
+.field-label{font-size:13px;font-weight:900;color:#42664d;text-align:center}
+.letter-inputs{
+  display:flex;flex-direction:column;
+  align-items:center;gap:10px;margin:15px 0;
+}
+.letter-row{
+  display:flex;justify-content:center;
+  align-items:center;gap:4px;
+  flex-wrap:nowrap;
+}
+.word-group{display:flex;gap:4px}
+.word-gap{width:13px;flex-shrink:0}
+.letter-inputs input{
+  width:clamp(24px,4vw,36px);
+  height:43px;text-align:center;border:0;
+  border-bottom:3px solid #7398ae;
+  border-radius:5px 5px 0 0;background:#f0f8fb;
+  text-transform:uppercase;font-weight:900;
+  font-size:18px;color:#244b66;outline:none;padding:0;
+}
+.letter-inputs input:focus{
+  border-bottom-color:#287aa6;background:#e4f4fc;
+}
+.simulator{
+  text-align:center;min-height:28px;
+  color:#47718b;font-size:13px;font-weight:900;
+  margin:7px 0 18px;overflow-wrap:anywhere;
+}
+.feature-title{
+  font-weight:900;color:#42664d;font-size:15px;
+  margin:18px 0 12px;border-top:1px dashed #d6c9ad;
+  padding-top:15px;
+}
+.feature-lines{display:grid;gap:17px}
+.feature-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#587080}
+.feature-row b{
+  width:23px;height:23px;flex:none;display:grid;
+  place-items:center;background:#ffe9ac;
+  border-radius:7px;color:#775b26;
+}
+.feature-line{height:1px;background:#a9bdca;flex:1}
+.shape-navigation{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.shape-navigation button{flex:1}
+.primary,.secondary{
+  padding:12px 18px;border:0;border-radius:12px;
+  font-weight:900;font-size:14px;cursor:pointer;
+}
+.primary{background:#28664d;color:#fff;box-shadow:0 5px 10px #28664d30}
+.secondary{background:#e8f2e8;color:#315c43}
+.primary:disabled,.secondary:disabled{opacity:.4;cursor:not-allowed}
+.primary:hover:not(:disabled),.secondary:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-2px)}
+.bottom-nav{
+  display:flex;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin-top:23px;
+}
+footer{text-align:center;padding:20px;color:#617a78;font-size:12px}
+@media(max-width:760px){
+  .quiz-layout{grid-template-columns:1fr}
+  .shape-display{min-height:270px}
+  .shape-art{height:220px}
+  .shape-art svg{height:200px}
+}
+@media(max-width:430px){
+  .topbar{justify-content:center}
+  .brand{width:100%;justify-content:center}
+  .nav{justify-content:center}
+  .answer-panel{padding:15px}
+  .bottom-nav{justify-content:center}
+  .word-gap{width:9px}
+  .letter-row{gap:3px}
+  .word-group{gap:3px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+
+.audio-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.audio-container audio {
+  width: min(350px, 90%);
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">📚</div>
+    <span>KELAS GEOMETRI</span>
+  </div>
+
+  <nav class="nav">
+
+    <a class="active" href="kuiz2.html">Kuiz 2</a>
+
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+
+    <h1>Mari Kenali Bentuk 3D Geometri</h1>
+    <p>Perhatikan gambar, eja nama bentuk dan kenali ciri-ciri setiap geometri!</p>
+  </section>
+
+  <section class="card">
+
+    <div class="section-title">
+      <div>
+        <h2>Aktiviti menamakan dan mengenal ciri-ciri bentuk geometri</h2>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="intro">
+      <strong>Teka dan tulis bentuk geometri berdasarkan gambar berikut:</strong>
+      <br>
+      Lihat gambar dengan teliti. Isikan huruf pada ruang kosong untuk melengkapkan nama bentuk.
+    </div>
+
+    <div class="progress" id="progress"></div>
+
+    <div class="quiz-layout">
+
+      <div class="shape-display">
+        <div class="shape-art" id="shapeArt"></div>
+      </div>
+
+      <div class="answer-panel">
+
+        <div class="shape-counter" id="shapeCounter">
+          BENTUK 1 DARIPADA 7
+        </div>
+
+        <p class="hint">
+          Perhatikan gambar dengan teliti.
+          Isikan huruf pada setiap kotak untuk melengkapkan
+          nama bentuk geometri yang betul.
+        </p>
+
+        <div class="field-label">Tulis nama bentuk geometri:</div>
+
+        <div class="letter-inputs" id="letterInputs"></div>
+
+        <div class="simulator" id="textSimulator" aria-live="polite">
+          Jawapan anda akan dipaparkan di sini.
+        </div>
+
+        <div class="feature-title">
+          Ciri-ciri geometri tersebut:
+        </div>
+
+        <div class="feature-lines">
+          <div class="feature-row"><b>1</b><span class="feature-line"></span></div>
+          <div class="feature-row"><b>2</b><span class="feature-line"></span></div>
+          <div class="feature-row"><b>3</b><span class="feature-line"></span></div>
+        </div>
+
+        <div class="shape-navigation">
+          <button class="secondary" id="previousButton"
+            onclick="changeShape(-1)">← Kembali</button>
+
+          <button class="primary" id="nextButton"
+            onclick="changeShape(1)">Seterusnya →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+
+    </div>
+
+  </section>
+</main>
+
+<footer></footer>
+
+<!-- BACKGROUND AUDIO -->
+<div class="audio-container">
+  <audio id="kids" controls autoplay loop>
+    <source src="kids.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
+</div>
+
+<script>
+const audio = document.getElementById("kids");
+audio.volume = 0.05;
+</script>
+
+<script>
+
+// Seven shapes. Pyramid answers are arranged in separate word rows.
+const shapes = [
+
+{
+  key:"kubus",
+  rows:[["KUBUS"]],
+  svg:`<svg viewBox="0 0 160 140" aria-label="Ilustrasi kubus">
+    <path d="M34 42 79 17 126 43 80 69Z" fill="#b4e4f5" stroke="#315e7c" stroke-width="3"/>
+    <path d="M34 42 34 96 80 123 80 69Z" fill="#68b2d3" stroke="#315e7c" stroke-width="3"/>
+    <path d="M80 69 126 43 126 96 80 123Z" fill="#3e84ad" stroke="#315e7c" stroke-width="3"/>
+  </svg>`
+},
+
+{
+  key:"sfera",
+  rows:[["SFERA"]],
+  svg:`<svg viewBox="0 0 160 140" aria-label="Ilustrasi sfera">
+    <defs><radialGradient id="sphereGrad" cx="30%" cy="25%">
+      <stop offset="0" stop-color="#fff3be"/>
+      <stop offset=".55" stop-color="#f6c85c"/>
+      <stop offset="1" stop-color="#d38b29"/>
+    </radialGradient></defs>
+    <circle cx="80" cy="70" r="48" fill="url(#sphereGrad)" stroke="#a56d22" stroke-width="3"/>
+    <ellipse cx="60" cy="43" rx="13" ry="8" fill="#fff8db" opacity=".7"/>
+  </svg>`
+},
+
+{
+  key:"silinder",
+  rows:[["SILINDER"]],
+  svg:`<svg viewBox="0 0 160 140" aria-label="Ilustrasi silinder">
+    <path d="M39 34V105C39 119 121 119 121 105V34" fill="#91cce4" stroke="#315e7c" stroke-width="3"/>
+    <ellipse cx="80" cy="34" rx="41" ry="15" fill="#dff4fc" stroke="#315e7c" stroke-width="3"/>
+    <path d="M39 105C39 124 121 124 121 105" fill="none" stroke="#315e7c" stroke-width="3"/>
+  </svg>`
+},
+
+{
+  key:"kon",
+  rows:[["KON"]],
+  svg:`<svg viewBox="0 0 160 140" aria-label="Ilustrasi kon">
+    <path d="M80 17 35 108Q80 129 125 108Z" fill="#f3ad91" stroke="#9c5744" stroke-width="3"/>
+    <path d="M35 108Q80 87 125 108" fill="none" stroke="#9c5744" stroke-width="3" stroke-dasharray="5 4"/>
+  </svg>`
+},
+
+{
+  key:"kuboid",
+  rows:[["KUBOID"]],
+  svg:`<svg viewBox="0 0 160 140" aria-label="Ilustrasi kuboid">
+    <path d="M20 46 57 23 139 39 101 63Z" fill="#bde1a8" stroke="#47734b" stroke-width="3"/>
+    <path d="M20 46V98L101 119V63Z" fill="#80b77b" stroke="#47734b" stroke-width="3"/>
+    <path d="M101 63 139 39V91L101 119Z" fill="#528d61" stroke="#47734b" stroke-width="3"/>
+  </svg>`
+},
+
+{
+  key:"piramid-tepat",
+  rows:[
+    ["PIRAMID"],
+    ["TAPAK"],
+    ["SEGI","EMPAT"],
+    ["TEPAT"]
+  ],
+  svg:`<svg viewBox="0 0 180 150" aria-label="Piramid tapak segi empat tepat">
+    <path d="M90 13 23 103 93 132 158 96Z" fill="#e8c28c" stroke="#8c663c" stroke-width="3"/>
+    <path d="M90 13 23 103 93 132Z" fill="#f7dfb7" stroke="#8c663c" stroke-width="2"/>
+    <path d="M90 13 93 132M90 13 158 96" fill="none" stroke="#8c663c" stroke-width="3"/>
+    <path d="M23 103 158 96" fill="none" stroke="#8c663c" stroke-width="2" stroke-dasharray="5 4"/>
+  </svg>`
+},
+
+{
+  key:"piramid-sama",
+  rows:[
+    ["PIRAMID"],
+    ["TAPAK"],
+    ["SEGI","EMPAT"],
+    ["SAMA"]
+  ],
+  svg:`<svg viewBox="0 0 180 150" aria-label="Piramid tapak segi empat sama">
+    <path d="M90 13 28 105 90 132 152 105Z" fill="#e8c28c" stroke="#8c663c" stroke-width="3"/>
+    <path d="M90 13 28 105 90 132Z" fill="#f7dfb7" stroke="#8c663c" stroke-width="2"/>
+    <path d="M90 13 90 132M90 13 152 105" fill="none" stroke="#8c663c" stroke-width="3"/>
+    <path d="M28 105 152 105" fill="none" stroke="#8c663c" stroke-width="2" stroke-dasharray="5 4"/>
+  </svg>`
+}
+
+];
+
+let currentShape = 0;
+const savedAnswers = {};
+let audioEnabled = true;
+let audioContext = null;
+
+const shapeArt = document.getElementById("shapeArt");
+const letterInputs = document.getElementById("letterInputs");
+const progress = document.getElementById("progress");
+
+// Interactive audio toggle.
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+
+  const button = document.getElementById("audioButton");
+
+  button.textContent = audioEnabled
+    ? "🔊 Audio: ON"
+    : "🔇 Audio: OFF";
+
+  button.setAttribute("aria-pressed",audioEnabled);
+
+  if (audioEnabled) clickSound();
+}
+
+// Small interactive sound.
+function clickSound() {
+  if (!audioEnabled) return;
+
+  try {
+    audioContext = audioContext ||
+      new (window.AudioContext || window.webkitAudioContext)();
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = 650;
+
+    gain.gain.setValueAtTime(.08,audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+      .001,audioContext.currentTime + .1
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + .1);
+
+  } catch(error) {
+    console.log("Audio unavailable");
+  }
+}
+
+// Seven navigation dots.
+shapes.forEach((shape,index) => {
+
+  const dot = document.createElement("button");
+
+  dot.textContent = index + 1;
+  dot.title = `Bentuk ${index + 1}`;
+
+  dot.setAttribute("aria-label",`Lihat bentuk ${index + 1}`);
+
+  dot.addEventListener("click",() => {
+    currentShape = index;
+    clickSound();
+    renderShape();
+  });
+
+  progress.appendChild(dot);
+
+});
+
+// Render illustration, blank spelling cells and word spacing.
+function renderShape() {
+
+  const shape = shapes[currentShape];
+
+  shapeArt.innerHTML = shape.svg;
+
+  document.getElementById("shapeCounter").textContent =
+    `BENTUK ${currentShape + 1} DARIPADA ${shapes.length}`;
+
+  document.getElementById("previousButton").disabled =
+    currentShape === 0;
+
+  document.getElementById("nextButton").textContent =
+    currentShape === shapes.length - 1
+      ? "Selesai ✓"
+      : "Seterusnya →";
+
+  letterInputs.innerHTML = "";
+
+  const saved = savedAnswers[shape.key] || "";
+  let letterIndex = 0;
+
+  shape.rows.forEach(wordRow => {
+
+    const row = document.createElement("div");
+    row.className = "letter-row";
+
+    wordRow.forEach((word,wordIndex) => {
+
+      const group = document.createElement("div");
+      group.className = "word-group";
+
+      [...word].forEach(() => {
+
+        const input = document.createElement("input");
+
+        input.type = "text";
+        input.maxLength = 1;
+        input.autocomplete = "off";
+        input.spellcheck = false;
+        input.value = saved[letterIndex] || "";
+
+        input.setAttribute(
+          "aria-label",
+          `Huruf ${letterIndex + 1}`
+        );
+
+        input.addEventListener("input",() => {
+
+          input.value = input.value
+            .slice(-1)
+            .toUpperCase()
+            .replace(/[^A-Z]/g,"");
+
+          updateSimulator();
+
+          const allInputs =
+            [...letterInputs.querySelectorAll("input")];
+
+          const position = allInputs.indexOf(input);
+
+          if (input.value && allInputs[position + 1]) {
+            allInputs[position + 1].focus();
+          }
+
+          clickSound();
+
+        });
+
+        input.addEventListener("keydown",event => {
+
+          const allInputs =
+            [...letterInputs.querySelectorAll("input")];
+
+          const position = allInputs.indexOf(input);
+
+          if (
+            event.key === "Backspace" &&
+            !input.value &&
+            allInputs[position - 1]
+          ) {
+            allInputs[position - 1].focus();
+          }
+
+          if (
+            event.key === "ArrowRight" &&
+            allInputs[position + 1]
+          ) {
+            allInputs[position + 1].focus();
+          }
+
+          if (
+            event.key === "ArrowLeft" &&
+            allInputs[position - 1]
+          ) {
+            allInputs[position - 1].focus();
+          }
+
+        });
+
+        group.appendChild(input);
+        letterIndex++;
+
+      });
+
+      row.appendChild(group);
+
+      // Real gap between two words, not an empty letter box.
+      if (wordIndex < wordRow.length - 1) {
+
+        const gap = document.createElement("div");
+        gap.className = "word-gap";
+
+        row.appendChild(gap);
+
+      }
+
+    });
+
+    letterInputs.appendChild(row);
+
+  });
+
+  document.querySelectorAll(".progress button").forEach((dot,index) => {
+
+    dot.classList.toggle("active",index === currentShape);
+
+    dot.classList.toggle(
+      "completed",
+      Boolean(savedAnswers[shapes[index].key])
+    );
+
+  });
+
+  updateSimulator();
+
+}
+
+// Display typed letters without revealing the correct answer.
+function updateSimulator() {
+
+  const shape = shapes[currentShape];
+
+  const rows = [
+    ...letterInputs.querySelectorAll(".letter-row")
+  ];
+
+  const displayedLines = rows.map(row => {
+
+    const words = [
+      ...row.querySelectorAll(".word-group")
+    ];
+
+    return words.map(group => {
+
+      return [...group.querySelectorAll("input")]
+        .map(input => input.value || "_")
+        .join("");
+
+    }).join(" ");
+
+  });
+
+  const allLetters = [
+    ...letterInputs.querySelectorAll("input")
+  ].map(input => input.value || "");
+
+  savedAnswers[shape.key] = allLetters.join("");
+
+  document.getElementById("textSimulator").textContent =
+    "Jawapan anda: " + displayedLines.join(" / ");
+
+}
+
+// Previous and next shape.
+function changeShape(direction) {
+
+  clickSound();
+
+  const next = currentShape + direction;
+
+  if (next < 0) return;
+
+  if (next >= shapes.length) {
+    showToast("🎉 Syabas! Anda telah melihat kesemua 7 bentuk geometri.");
+    return;
+  }
+
+  currentShape = next;
+  renderShape();
+
+}
+
+function showToast(message) {
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  },2500);
+
+}
+
+renderShape();
+
+</script>
+
+</body>
+</html>
